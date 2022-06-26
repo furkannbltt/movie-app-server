@@ -1,7 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import {
-    addCommentValidation,
-} from "../utils/validation-helper";
 import Comment from "../models/comment";
 
 export const addComment = async (
@@ -10,10 +7,6 @@ export const addComment = async (
     next: NextFunction
 ) => {
     try {
-        const { error } = addCommentValidation(request.body);
-        if (error) {
-            return response.status(400).json({ message: error.details[0].message });
-        }
         const { comment, id, sender } = request.body;
         const data = await Comment.create({
             comment: comment,

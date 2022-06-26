@@ -80,12 +80,6 @@ const loginUser = (request, response, next) => __awaiter(void 0, void 0, void 0,
 exports.loginUser = loginUser;
 const userFavorite = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        // const { error } = loginUserValidation(request.body);
-        // if (error) {
-        //     return response
-        //         .status(400)
-        //         .json({ message: error.details[0].message });
-        // }
         const { email, id } = request.body;
         const userControl = yield user_1.default.findOne({ email: email });
         console.log(userControl, "userControl");
@@ -130,6 +124,7 @@ const sendEmail = (request, response, next) => __awaiter(void 0, void 0, void 0,
         };
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
+                console.log(error);
                 return response.json({ status: false });
             }
             else {
