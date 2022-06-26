@@ -15,33 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getComments = exports.addComment = void 0;
 const validation_helper_1 = require("../utils/validation-helper");
 const comment_1 = __importDefault(require("../models/comment"));
-// export const delComment = async (
-//     request: Request,
-//     response: Response,
-//     next: NextFunction
-// ) => {
-//     try {
-//         const { error } = delCommentValidation(request.body);
-//         if (error) {
-//             return response.status(400).json({ message: error.details[0].message });
-//         }
-//         const { id } = request.body;
-//         const messages = await Message.find({
-//             users: {
-//                 $del: [from, to],
-//             },
-//         }).sort({ updatedAt: 1 });
-//         const projectedMessages = messages.map((item) => {
-//             return {
-//                 fromSelf: item.sender.toString() === from,
-//                 message: item.message.text,
-//             };
-//         });
-//         response.json(projectedMessages);
-//     } catch (ex) {
-//         next(ex);
-//     }
-// };
 const addComment = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { error } = (0, validation_helper_1.addCommentValidation)(request.body);

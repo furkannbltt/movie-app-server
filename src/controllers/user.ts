@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import User from "../models/user";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { createUserValidation, getFavoriteValidation, loginUserValidation, sendEmailValidation, userFavoriteValidation } from "../utils/validation-helper";
+import { createUserValidation, loginUserValidation } from "../utils/validation-helper";
 
 var nodemailer = require('nodemailer');
 var transporter = nodemailer.createTransport({
@@ -78,12 +78,6 @@ export const loginUser = async (request: Request, response: Response, next: Next
 };
 export const userFavorite = async (request: Request, response: Response, next: NextFunction) => {
     try {
-        const { error } = userFavoriteValidation(request.body);
-        if (error) {
-            return response
-                .status(400)
-                .json({ message: error.details[0].message });
-        }
         const { email,id } = request.body;        
         const userControl = await User.findOne({email:email})
         console.log(userControl,"userControl");
@@ -117,12 +111,6 @@ export const userFavorite = async (request: Request, response: Response, next: N
 }
 export const getFavorites = async (request: Request, response: Response, next: NextFunction) => {
     try {
-        const { error } = getFavoriteValidation(request.body);
-        if (error) {
-            return response
-                .status(400)
-                .json({ message: error.details[0].message });
-        }
         const { email } = request.body;
         const user = await User.findOne({email:email})
         return response.json({ status: true,user })
@@ -132,13 +120,7 @@ export const getFavorites = async (request: Request, response: Response, next: N
 }
 export const sendEmail = async (request: Request, response: Response, next: NextFunction) => {
     try {
-        const { error } = sendEmailValidation(request.body);
-        if (error) {
-            return response
-                .status(400)
-                .json({ message: error.details[0].message });
-        }
-        const {from, to,link } = request.body;
+        const {from,to,link } = request.body;
         var mailOptions = {
             from: from,
             to: to,
@@ -148,6 +130,7 @@ export const sendEmail = async (request: Request, response: Response, next: Next
           
           transporter.sendMail(mailOptions, function(error:any, info:any){
             if (error) {
+                console.log(error)
                 return response.json({ status: false })
             } else {
                 return response.json({ status: true })
