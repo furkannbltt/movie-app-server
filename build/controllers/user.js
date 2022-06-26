@@ -21,8 +21,8 @@ var nodemailer = require('nodemailer');
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'mymovie.center.app@gmail.com',
-        pass: 'lalqwxvfavpxoqlx'
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASS
     }
 });
 const createUser = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
